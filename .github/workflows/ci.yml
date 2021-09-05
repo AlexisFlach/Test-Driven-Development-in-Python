@@ -1,0 +1,10 @@
+name: testing
+on: push
+
+jobs:
+  test_project:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run Unittest
+        run: python3 discover -s ./Tests

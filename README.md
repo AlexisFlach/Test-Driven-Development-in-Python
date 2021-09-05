@@ -56,8 +56,7 @@ Ur detta föddes andra agila metodologier så som Scrum och Kanban. Kent Beck, e
 
 XP bygger på Core Values, Core Principles och Core Practises
 
-```
-Core Values**
+**Core Values**
 
 Communication
 
@@ -100,7 +99,6 @@ User Stories
 Weekly Cycle
 
 Continous Integration
-```
 
 
 
@@ -114,11 +112,7 @@ Vi får testet att *fail* innan vi ens har skrivit en rad kod. Det är viktigt a
 
 ###### Red-Green Testing
 
-**Install pytest**
-
-```
-pip3 install pytest
-```
+**./greeting**
 
 **greeting.py**
 
@@ -132,35 +126,36 @@ Därefter skiver vi vårt test.
 **test_greeting.py**
 
 ```python
-from greeting import *
+from greeting import greeting
+import unittest
 
-def test_greeting():
-  assert greeting("Alex") == "Greetings Alex"
+class TestGreeting(unittest.TestCase):
+  def test_greeting(self):
+    msg = greeting("Alex")
+    self.assertEqual(msg, "Greetings Alex")
 ```
 
 **terminal**
 
 ```
-# pytest test_greeting.py
-================================ test session starts ================================
-platform darwin -- Python 3.9.6, pytest-6.2.5, py-1.10.0, pluggy-1.0.0
-rootdir: /Users/alex/Documents/projects/tdd-python
-collected 1 item
+python -m unittest test_greeting.py
+```
 
-test_greeting.py F                                                            [100%]
+```
+alexs-MacBook-Pro% python -m unittest test_greeting.py
+F
+======================================================================
+FAIL: test_greeting (test_greeting.TestGreeting)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/alex/Documents/projects/tdd-python/greeting/test_greeting.py", line 7, in test_greeting
+    self.assertEqual(msg, "Greetings Alex")
+AssertionError: None != 'Greetings Alex'
 
-===================================== FAILURES ======================================
-___________________________________ test_greeting ___________________________________
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
 
-    def test_greeting():
->     assert greeting("Alex") == "Greetings Alex"
-E     AssertionError: assert None == 'Greetings Alex'
-E      +  where None = greeting('Alex')
-
-test_greeting.py:4: AssertionError
-============================== short test summary info ==============================
-FAILED test_greeting.py::test_greeting - AssertionError: assert None == 'Greetings...
-================================= 1 failed in 0.03s =================================
+FAILED (failures=1)
 ```
 
 **greeting.py**
@@ -170,15 +165,15 @@ def greeting(name):
   return f"Greetings {name}"
 ```
 
+
+
 ```
-================================ test session starts ================================
-platform darwin -- Python 3.9.6, pytest-6.2.5, py-1.10.0, pluggy-1.0.0
-rootdir: /Users/alex/Documents/projects/tdd-python
-collected 1 item
+alexs-MacBook-Pro% python -m unittest test_greeting.py
+.
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
 
-test_greeting.py .                                                            [100%]
-
-================================= 1 passed in 0.01s =================================
+OK
 ```
 
 ###### Varför TDD?
@@ -199,7 +194,72 @@ http://butunclebob.com/ArticleS.UncleBob.TheThreeRulesOfTdd
 3. You are not allowed to write any more production code than is sufficient to pass the one failing unit test.
 ```
 
-###### Django Testing
+### CI
+
+Continuos Integration är även det ett agile mindset och en del av XP. Det är bästa praxis för DevOps att i små etapper integrera kodförändringar till *main branch* och att testa ändringarna så tidigt och ofta som möjligt
+
+**Continuous Integration**
+
+- Frequent merges to main branch
+- Automated unit testing
+
+**Continuous Delivery**
+
+- Short release shedules
+
+###### Varför?
+
+Innan vi funderar på hur bör vi fundera kring varför. Innan the agile manifesto går det att tänka sig att utvecklingen såg annorlunda ut; ett gäng utvecklare jobbade på samma kod, och när dem integrerade sin kod, så fallerade allting och det var svårt att felsöka på var felet låg.
+
+Nu har man ett repository där koden lagras. Alla i teamet jobbar på sin version av koden; en feature, branch eller vad det än kan tänkas vara. Vad som händer är att dessa förändringar som utvecklarna arbetar med frekvent mergas ihop med Koden, så att man försäkrar sig om att alla åtminstone arbetar på hyfsat likadana versioner av applikationen.
+
+En annan viktig byggsten i CI är **automated unit testing**. Unit testing handlar om att verifierara att varje liten del/komponent av ett program funkar som det ska.
+
+###### Github Actions
+
+Github Actions låter oss sätta upp ett workflow där till exempel varje gång någon pushar till ett github repo, så ska något automatiskt hända.
+
+För att sätta upp ett sådant workflow använder vi oss av en yaml-fil. YAML används ofta för konfiguration
+
+```yaml
+key1: value1
+key2: value2
+key3:
+		- item1
+		- item2
+		- item3
+```
+
+###### .github/workflows/ci.yml
+
+```yaml
+name: testing
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Python 3
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.6
+      - name: Run tests with pytest
+        run: python discover -s ./Tests
+```
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
