@@ -1,0 +1,14 @@
+sudo: reuired
+
+services:
+  - docker
+
+before_install:
+  - docker build -t flachens/test-testa-app -f Dockerfile.dev .
+
+script:
+  - docker run -e CI=true flachens/test-testa-app python -m unittest discover -s ./Tests
+
+after_success:
+  - docker build -t flachens/hello-world .
+  

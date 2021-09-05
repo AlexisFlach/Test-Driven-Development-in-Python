@@ -58,6 +58,7 @@ XP bygger på Core Values, Core Principles och Core Practises
 
 **Core Values**
 
+```
 Communication
 
 Simplicity
@@ -67,9 +68,11 @@ Feedback
 Courage
 
 Respect
+```
 
 **Core Principles**
 
+```
 Baby steps
 
 Quality
@@ -83,9 +86,11 @@ Economics
 Mutual Benefit
 
 Accepted responsibility
+```
 
 **Core Practises**
 
+```
 Whole team
 
 Test-first programming -> TDD
@@ -99,6 +104,7 @@ User Stories
 Weekly Cycle
 
 Continous Integration
+```
 
 
 
@@ -140,6 +146,8 @@ class TestGreeting(unittest.TestCase):
 ```
 python -m unittest test_greeting.py
 ```
+
+
 
 ```
 alexs-MacBook-Pro% python -m unittest test_greeting.py
@@ -273,6 +281,8 @@ with:
   password: ${{ secrets.DOCKER_PASSWORD }}
 ```
 
+
+
 ```
 name: testing
 on: push
@@ -296,11 +306,19 @@ jobs:
 
 
 
+### Continuous Integration med Travis CI
 
+```
+1. Vi pushar kod till github
+2. Travis är där direkt och hämtar(pull) repot
+3. Travis builds en test image, och testar koden.
+4. Travis builds produktions image
+5. Travis pushar produktions image till Docker Hub
+```
 
+###### Travis Ci config
 
-
-
+**.travis.yml**
 
 
 
