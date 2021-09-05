@@ -251,9 +251,27 @@ jobs:
 
 ###### Dockerize it
 
+```dockerfile
+FROM python
+WORKDIR /app
+COPY . .
+CMD ["python", "-m", "unittest", "discover", "-s", "./Tests"]
+```
 
 
 
+###### Build and push to Docker
+
+https://github.com/marketplace/actions/docker-build-push-action
+
+```
+uses: mr-smithers-excellent/docker-build-push@v5
+with:
+  image: docker-hub-repo/image-name
+  registry: docker.io
+  username: ${{ secrets.DOCKER_USERNAME }}
+  password: ${{ secrets.DOCKER_PASSWORD }}
+```
 
 
 
