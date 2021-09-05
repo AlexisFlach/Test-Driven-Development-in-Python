@@ -304,8 +304,6 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 ```
 
-
-
 ### Continuous Integration med Travis CI
 
 ```
@@ -319,6 +317,28 @@ jobs:
 ###### Travis Ci config
 
 **.travis.yml**
+
+```
+sudo: reuired
+
+services:
+  - docker
+
+before_install:
+  - docker build -t flachens/test-testa-app -f Dockerfile.dev .
+
+script:
+  - docker run -e CI=true flachens/test-testa-app python -m unittest discover -s ./Tests
+
+after_success:
+  - docker build -t flachens/hello-world .
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - docker push flachens/hello-world
+```
+
+###### Varför Docker?
+
+https://www.cigniti.com/blog/need-use-dockers-ci-cd/
 
 
 
