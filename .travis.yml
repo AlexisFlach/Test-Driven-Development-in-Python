@@ -11,4 +11,5 @@ script:
 
 after_success:
   - docker build -t flachens/hello-world .
-  
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - docker push flachens/hello-world
