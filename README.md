@@ -267,13 +267,31 @@ https://github.com/marketplace/actions/docker-build-push-action
 ```
 uses: mr-smithers-excellent/docker-build-push@v5
 with:
-  image: docker-hub-repo/image-name
+  image: docker-hub-repo/image-name:1.0
   registry: docker.io
   username: ${{ secrets.DOCKER_USERNAME }}
   password: ${{ secrets.DOCKER_PASSWORD }}
 ```
 
+```
+name: testing
+on: push
 
+jobs:
+  test_project:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run Unittest
+        run: python -m unittest discover -s ./Tests
+      - name: Build and Push Docker Image
+        uses: mr-smithers-excellent/docker-build-push@v5
+        with:
+          image: flachens/test-test-app:1.0
+          registry: docker.io
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+```
 
 
 
