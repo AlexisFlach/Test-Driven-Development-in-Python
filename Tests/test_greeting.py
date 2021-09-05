@@ -1,4 +1,4 @@
-from greeting import greeting
+from greeting import *
 import unittest
 
 class TestGreeting(unittest.TestCase):
